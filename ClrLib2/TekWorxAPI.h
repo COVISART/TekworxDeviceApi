@@ -7,7 +7,6 @@
 #include <iostream>
 #include <string>
 
-#include "Simulator.h"
 #include <conio.h>
 #include <stdlib.h>
 #include <msclr/marshal_cppstd.h>

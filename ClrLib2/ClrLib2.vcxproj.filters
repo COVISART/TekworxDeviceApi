@@ -33,9 +33,6 @@
     <ClInclude Include="interfaceITAPI_Data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Simulator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TekWorxAPI.cpp">
@@ -49,7 +46,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\Program Files\TEKWorx Limited\interfaceIT API x64\interfaceITAPI x64.dll">
+    <None Include="..\interfaceApi\interfaceITAPI x64.dll">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

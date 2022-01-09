@@ -137,7 +137,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="TekWorxAPI.h" />
-    <ClInclude Include="Simulator.h" />
     <ClInclude Include="interfaceITAPI_Data.h" />
     <ClInclude Include="interfaceIT_BoardInfo.h" />
     <ClInclude Include="interfaceIT_BoardIDs.h" />
@@ -165,7 +164,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\Program Files\TEKWorx Limited\interfaceIT API x64\interfaceITAPI x64.dll">
+    <None Include="..\interfaceApi\interfaceITAPI x64.dll">
       <DeploymentContent>true</DeploymentContent>
     </None>
   </ItemGroup>
