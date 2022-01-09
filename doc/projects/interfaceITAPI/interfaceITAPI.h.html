@@ -1,0 +1,821 @@
+<HTML>
+<HEAD>
+<TITLE>
+interfaceITAPI.h
+</TITLE>
+</HEAD>
+<BODY>
+<PRE>
+<font color="green">// interfaceITAPI.h : main header file for the INTERFACEITAPI DLL</font>
+<font color="green">//</font>
+
+<font color="blue">#pragma</font> once
+
+<font color="blue">#ifndef</font> __AFXWIN_H__
+    <font color="blue">#error</font> <font color="blue">include</font> <font color="maroon">'stdafx.h'</font> before including <font color="blue">this</font> file <font color="blue">for</font> PCH
+<font color="blue">#endif</font>
+
+<font color="blue">#include</font> <font color="maroon">"resource.h"</font>       <font color="green">// main symbols</font>
+<font color="blue">#include</font> <font color="maroon">"interfaceITAPI_Data.h"</font>
+<font color="blue">#include</font> <font color="maroon">"interfaceIT_BoardInfo.h"</font>
+
+<font color="blue">#ifdef</font> __cplusplus
+<font color="blue">extern</font> <font color="maroon">"C"</font> <font color="black">{</font>
+<font color="blue">#endif</font>
+
+<font color="blue">#ifdef</font> INTERFACEITAPI_EXPORTS
+<font color="blue">#define</font> INTERFACEIT_API __declspec<font color="black">(</font>dllexport<font color="black">)</font>
+<font color="blue">#else</font>
+<font color="blue">#define</font> INTERFACEIT_API __declspec<font color="black">(</font>dllimport<font color="black">)</font>
+<font color="blue">#endif</font>
+
+<font color="green">/**
+ * Main functions
+ */</font>
+
+<font color="green">/**
+ * Initial API calls to open a connection to the API.  Must be called before any other functions are called&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_CloseControllers
+ * @see #interfaceIT_GetDeviceList
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_CONTROLLERS_ALREADY_OPENED - The controller has already been opened.&#60;br&#62;
+ *  IITAPI_ERR_NO_CONTROLLERS_FOUND - No interfaceIT controllers were found in the system
+ *  IITAPI_ERR_CONTROLLERS_OPEN_FAILED - An error occured while opening the interfaceIT controllers
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_OpenControllers<font color="black">(</font><font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_OpenControllers
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_OpenControllers_std<font color="black">(</font><font color="black">)</font>;
+
+<font color="green">/**
+ * Closes the connection to the API, resulting in all controllers being closed.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_OpenControllers
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_CloseControllers<font color="black">(</font><font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_CloseControllers
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_CloseControllers_std<font color="black">(</font><font color="black">)</font>;
+
+<font color="green">/**
+ * Populates a buffer with a null delimited list of serial numbers of the connected devices.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_CloseControllers
+ * @see #interfaceIT_OpenControllers
+ * @see interfaceIT_FreeBuffer()
+ *
+ * @param   pBuffer Pointer to a buffer that will hold a list of controllers that were opened and available to be bound to.
+ *                  Passing in a NULL to this parameter will cause the function to retrieve the buffer size (dwSize) that is required
+ *                  to hold the list of controllers.  The returned list of controllers will be their unique serial numbers seperated
+ *                  by a NULL character and terminated with two NULL characters.&#60;br&#62;
+ * @param   dwSize  Size of the passed in pBuffer and upon exit will be set to the size of data that was stored in the pBuffer.
+ * @param   pBoardType  Optional parameter that allows you to open just a specific controller type.  Passing in NULL will open all 
+ *                      controllers that are connected to the system.  For example if you pass in "32E1" you will open just FDS-SYS1
+ *                      controllers connected to the systems.&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_CONTROLLERS_NOT_OPENED - The interfaceIT controllers are not opened.  You need to call interfaceIT_OpenControllers() first.&#60;br&#62;
+ *  IITAPI_ERR_PARAMETER_LENGTH_INCORRECT - The passed board type parameter was an invalid length.  Board types are all 4 digits (ie. 2396).&#60;br&#62;
+ *  IITAPI_ERR_BUFFER_NOT_LARGE_ENOUGH - The buffer to hold the list of controllers is not large enought.&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_GetDeviceList<font color="black">(</font><font color="blue">char</font><font color="black">*</font> pBuffer, DWORD<font color="black">*</font> dwSize, <font color="blue">char</font><font color="black">*</font> pBoardType <font color="black">=</font> NULL<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_GetDeviceList
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_GetDeviceList_std<font color="black">(</font><font color="blue">char</font><font color="black">*</font> pBuffer, DWORD<font color="black">*</font> dwSize, <font color="blue">char</font><font color="black">*</font> pBoardType <font color="black">=</font> NULL<font color="black">)</font>;
+
+<font color="green">/**
+ * Returns the total number of controllers in the system&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_CloseControllers
+ * @see #interfaceIT_OpenControllers
+ *
+ * @param   pnControllers   Pointer to a variable that will receive the number of controllers&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_CONTROLLERS_NOT_OPENED - The interfaceIT controllers are not opened.  You need to call interfaceIT_OpenControllers() first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_POINTER - Invalid pointer to the the variable to retreive the count.&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_GetTotalControllers<font color="black">(</font><font color="blue">int</font><font color="black">*</font> pnControllerCount<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_GetTotalControllers
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_GetTotalControllers_std<font color="black">(</font><font color="blue">int</font><font color="black">*</font> pnValue<font color="black">)</font>;
+
+<font color="green">/**
+ * You need to call this function to to bind to a controller in order to execute any commands with it.  Make sure that when you are finished
+ * utilizing the controller that you call the interfaceIT_UnBind() function to release control of the controller.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_OpenControllers
+ * @see #interfaceIT_UnBind
+ *
+ * @param   pController Pointer to a buffer that contains the name of the controller that you wish to bind to.  This name is available 
+ *                      from the list of returned controllers of the interfaceIT_OpenControllers() function.&#60;br&#62;
+ * @param   phSession   Pointer to the session handle of the controller you bind to.  This handle will be needed in all other functions
+ *                      that communicate with the board.&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_CONTROLLERS_NOT_OPENED - The interfaceIT controllers are not opened.  You need to call interfaceIT_OpenControllers() first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_POINTER - The pointer passed to hold the session for this bound device is not valid.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_NAME - The controller name that was passed in is not valid.&#60;br&#62;
+ *  IITAPI_ERR_CONTROLLER_ALREADY_BOUND - The controller you are trying to bind to is already bound.&#60;br&#62;
+ *  IITAPI_ERR_RETRIEVING_CONTROLLER - Unable to find a controller by this name.&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Bind<font color="black">(</font><font color="blue">const</font> <font color="blue">char</font><font color="black">*</font> pController, DWORD<font color="black">*</font> phSession<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_Bind
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_Bind_std<font color="black">(</font><font color="blue">const</font> <font color="blue">char</font><font color="black">*</font> pController, DWORD<font color="black">*</font> phSession<font color="black">)</font>;
+<font color="green">/**
+ * Call this function to unbind from a controller once you are finished with it.  If you do not unbind from a board no other
+ * bind operation will succeed because the controller is locked.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_OpenControllers
+ * @see #interfaceIT_Bind
+ *
+ * @param   hSession    Handle to the session that you wish to unbind from.  This handle was returned from the interfaceIT_Bind() function.&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to pass the session returned from interfaceIT_Bind().&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_UnBind<font color="black">(</font>DWORD hSession<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_UnBind
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_UnBind_std<font color="black">(</font>DWORD hSession<font color="black">)</font>;
+<font color="green">/**
+ * This function returns a BOARDCAPS structure containing the information about the supported operations and details of the controller.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ *
+ * @param   hSession    Handle to the session that you wish to unbind from.  This handle was returned from the interfaceIT_Bind() function.
+ * @param   pbc         Pointer to the BOARDCAPS structure that will contain the information about the controllers supported options and operational data.
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind() first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_GetBoardInfo<font color="black">(</font>DWORD hSession, BOARDCAPS<font color="black">*</font> pbc<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_GetBoardInfo
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_GetBoardInfo_std<font color="black">(</font>DWORD hSession, BOARDCAPS<font color="black">*</font> pbc<font color="black">)</font>;
+
+<font color="green">/**
+ * Function all that allow you to set addition options on a board once you have finished binding to it.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   dwOptions   Specifies the options to set for this bound board.&#60;BR&#62;Currently the only support options are:&#60;ul&#62;&#60;li&#62;INTERFACEIT_BOARD_OPTION_CDUKEYS - Required for pre v9 CDU's&#60;/li&#62;&#60;li&#62;INTERFACEIT_BOARD_OPTION_FORCE64 - Should be used on all board other than the JetMax MCP, FDS-CONTROLLER-MCP and the IIT-HIO-128-256 board (any board that doesn't have 128 inputs).  Required on newer FDS-CONTROLLER-MCP's to allow the relay to function correctly&#60;/li&#62;&#60;/ul&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_SetBoardOptions<font color="black">(</font>DWORD hSession, DWORD dwOptions<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_SetBoardOptions
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_SetBoardOptions_std<font color="black">(</font>DWORD hSession, DWORD dwOptions<font color="black">)</font>;
+
+<font color="green">/**
+ * This function enables the LED functions on the controller.  You need to call this before you attempt to call any of the other functions that set the state of any of the LED's.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_LED_Test
+ * @see #interfaceIT_LED_Set
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   bEnable     Boolean value to set the enable state (true / 1 enables, false / 0 disables).&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_LED_Enable<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+<font color="green">/**
+ * This function will set the LED's to a test state (all on).&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_LED_Enable
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   bEnable     Boolean value to set the enable state (true / 1 enables, false / 0 disables).&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.
+ *  IITAPI_ERR_NOT_ENABLED - The main function has not been enabled.
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_LED_Test<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+<font color="green">/**
+ * This function allows turning on and off individual LED's&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_LED_Test
+ * @see #interfaceIT_LED_Enable
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   nLED        LED number that you wish to set the state of.&#60;br&#62;
+ * @param   bOn         Boolean value to set the enable state (true / 1 enables, false / 0 disables).&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.
+ *  IITAPI_ERR_NOT_ENABLED - The LED functions have not been enabled.
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_LED_Set<font color="black">(</font>DWORD hSession, <font color="blue">int</font> nLED, <font color="blue">bool</font> bOn <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_LED_Enable
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_LED_Enable_std<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_LED_Test
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_LED_Test_std<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_LED_Set
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_LED_Set_std<font color="black">(</font>DWORD hSession, <font color="blue">int</font> nLED, <font color="blue">bool</font> bOn <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+
+<font color="green">/**
+ * This function enables the switch notification via a callback to your software.  Every time a switch is pressed you will be notified with the switch number and the direction.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_Switch_Get_State
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   bEnable     Boolean value to set the enable state (true / 1 enables, false / 0 disables).&#60;br&#62;
+ * @param   pProc       Pointer to the callback function defined as INTERFACEIT_KEY_NOTIFY_PROC
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Switch_Enable_Callback<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable, INTERFACEIT_KEY_NOTIFY_PROC pProc<font color="black">)</font>;
+<font color="green">/**
+ * This function enables the switch notification via polling from your software.  Every time a switch is pressed it is added to the receive queue until you call the interfaceIT_Switch_Get_Item function which removes it from the queue.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_Switch_Get_Item
+ * @see #interfaceIT_Switch_Get_State
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   bEnable     Boolean value to set the enable state (true / 1 enables, false / 0 disables).&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Switch_Enable_Poll<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable<font color="black">)</font>;
+<font color="green">/**
+ * This function retrieves the oldest switch notificatio when enabled in polling mode.  As switch notification are received they are added to the queue until this call is processed to retrieve the oldes item and then remove it.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_Switch_Enable_Poll
+ * @see #interfaceIT_Switch_Get_State
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   pnSwitch    Pointer to a variable that will hold the oldest switch number notification.&#60;br&#62;
+ * @param   pnDirection Pointer to a variable that will hold the direction for the oldest switch number notification.&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.
+ *  IITAPI_ERR_NO_ITEMS - There are no more items in the list.
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Switch_Get_Item<font color="black">(</font>DWORD hSession, <font color="blue">int</font><font color="black">*</font> pnSwitch, <font color="blue">int</font><font color="black">*</font> pnDirection<font color="black">)</font>;
+<font color="green">/**
+ * This function retrieves the current state for the indicated switch (callback and polling mode).&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_Switch_Enable_Callback
+ * @see #interfaceIT_Switch_Enable_Poll
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   nSwitch     The switch number that you wish to get the state for.&#60;br&#62;
+ * @param   pnState     Pointer to a variable that will hold the current state of the indicated switch.&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.
+ *  IITAPI_ERR_PARAMETER_OUT_OF_RANGE - The requested switch is out of range for the configuraiton of this controller.
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Switch_Get_State<font color="black">(</font>DWORD hSession, <font color="blue">int</font> nSwitch, <font color="blue">int</font><font color="black">*</font> pnState<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_Switch_Enable_Callback
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_Switch_Enable_Callback_std<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable, INTERFACEIT_KEY_NOTIFY_PROC pProc<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_Switch_Enable_Poll
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_Switch_Enable_Poll_std<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_Switch_Get_Item
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_Switch_Get_Item_std<font color="black">(</font>DWORD hSession, <font color="blue">int</font><font color="black">*</font> pnSwitch, <font color="blue">int</font><font color="black">*</font> pnDirection<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_Switch_Get_State
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_Switch_Get_State_std<font color="black">(</font>DWORD hSession, <font color="blue">int</font> nSwitch, <font color="blue">int</font><font color="black">*</font> pnState<font color="black">)</font>;
+
+<font color="green">/**
+ * This function enables the 7 Segment functions on the controller.  You need to call this before you attempt to call any of the other functions that set the state of any of the LED's.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_7Segment_Display
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   bEnable     Boolean value to set the enable state (true / 1 enables, false / 0 disables).&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_7Segment_Enable<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+
+<font color="green">/**
+ * This function sets the 7 Segment data.  You can set individual segment by specifing the segment and the character to display, or you can set sections of segment by specifing the start and passing in the entire string.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_7Segment_Enable
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   pszData     The data you wish displayed on the 7 segment displays&#60;br&#62;
+ * @param   nStart      The starting segment number.  Data will be written starting at this segment.&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.
+ *  IITAPI_ERR_NOT_ENABLED - The 7 segment functions have not been enabled.
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_7Segment_Display<font color="black">(</font>DWORD hSession, <font color="blue">char</font><font color="black">*</font> pszData, <font color="blue">int</font> nStart<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_7Segment_Enable
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_7Segment_Enable_std<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_7Segment_Display
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_7Segment_Display_std<font color="black">(</font>DWORD hSession, <font color="blue">char</font><font color="black">*</font> pszData, <font color="blue">int</font> nStart<font color="black">)</font>;
+
+<font color="green">/**
+ * This function enables the dataline functions on the controller.  You need to call this before you attempt to call any of the other functions that set the state of any of the datalines.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_Dataline_Set
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   bEnable     Boolean value to set the enable state (true / 1 enables, false / 0 disables).&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Dataline_Enable<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+<font color="green">/**
+ * This function sets the state of the specified dataline to on (true) or off (false).&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_Dataline_Enable
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   nDataline   The dataline which you wish to set the date of&#60;br&#62;
+ * @param   bOn     The new state of the data (on = true, off = false)&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.
+ *  IITAPI_ERR_NOT_ENABLED - The 7 segment functions have not been enabled.
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Dataline_Set<font color="black">(</font>DWORD hSession, <font color="blue">int</font> nDataline, <font color="blue">bool</font> bOn <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_Dataline_Enable
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_Dataline_Enable_std<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_Dataline_Set
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_Dataline_Set_std<font color="black">(</font>DWORD hSession, <font color="blue">int</font> nDataline, <font color="blue">bool</font> bOn <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+
+<font color="green">/**
+ *  Future call that is currently not supported or implemented in production releases&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Servo_Enable<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable<font color="black">)</font>;
+<font color="green">/**
+ *  Future call that is currently not supported or implemented in production releases&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Servo_Set_Position<font color="black">(</font>DWORD hSession, <font color="blue">int</font> nController, <font color="blue">int</font> nServo, <font color="blue">int</font> nPos<font color="black">)</font>;
+<font color="green">/**
+ *  Future call that is currently not supported or implemented in production releases&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Servo_Set_Center<font color="black">(</font>DWORD hSession, <font color="blue">int</font> nController, <font color="blue">int</font> nServo, <font color="blue">int</font> nPos<font color="black">)</font>;
+
+<font color="green">/**
+ * This function enables the brightness control on board that support this feature.  You need to call this before you attempt to set the brightness.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_Brightness_Set
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   bEnable     Boolean value to set the enable state (true / 1 enables, false / 0 disables).&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.&#60;br&#62;
+ *  IITAPI_ERR_ALREADY_ENABLED - The brightness function is already enabled&#60;br&#62;
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Brightness_Enable<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+<font color="green">/**
+ * This function sets the brightness of the device.  Brightness is calculated on a scale of 0 to 255.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_Brightness_Enable
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   nBrightness the brightness level to set the device to (0 - 255)&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.&#60;br&#62;
+ *  IITAPI_ERR_NOT_ENABLED - The brightness functions have not been enabled.&#60;br&#62;
+ *  IITAPI_ERR_PARAMETER_OUT_OF_RANGE - The brightness value is out of range.&#60;br&#62;
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Brightness_Set<font color="black">(</font>DWORD hSession, <font color="blue">int</font> nBrightness<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_Brightness_Enable
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_Brightness_Enable_std<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_Brightness_Set
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_Brightness_Set_std<font color="black">(</font>DWORD hSession, <font color="blue">int</font> nBrightness<font color="black">)</font>;
+
+
+<font color="green">/**
+ * This function enables the analog input control on boards that support this feature.  You need to call this before you attempt to retrieve the current value.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_Analog_GetValue
+ * @see #interfaceIT_Analog_GetValues
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   bEnable     Boolean value to set the enable state (true / 1 enables, false / 0 disables).&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.&#60;br&#62;
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Analog_Enable<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+<font color="green">/**
+ * This function retrieves the current value of the analog input.  The returned value is 12 bit value indicating the input in relation to GND and board +5v.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_Analog_Enable
+ * @see #interfaceIT_Analog_GetValues
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   nReserved   Reserved must be 0
+ * @param   pnPos       Pointer to a variable that will receive the current 12 bit value of the analog input.&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.&#60;br&#62;
+ *  IITAPI_ERR_NOT_ENABLED - This function has not been enabled.&#60;br&#62;
+ *  IITAPI_ERR_PARAMETER_OUT_OF_RANGE - The reserved parameter is not set to 0.&#60;br&#62;
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Analog_GetValue<font color="black">(</font>DWORD hSession, <font color="blue">int</font> nReserved, <font color="blue">int</font><font color="black">*</font> pnPos<font color="black">)</font>;
+<font color="green">/**
+ * This function retrieves the current values of the 16 channel analog input.  The returned values are 8 bit data in relation to GND and board +5v.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @see #interfaceIT_Bind
+ * @see #interfaceIT_GetBoardInfo
+ * @see #interfaceIT_Analog_Enable
+ * @see #interfaceIT_Analog_GetValue
+ *
+ * @param   hSession    Handle to the session that was returned from the interfaceIT_Bind call.&#60;br&#62;
+ * @param   pbValues    A pointer to a unsigned char array of 16 (unsigned char[16]).&#60;br&#62;
+ * @param   nValuesSize The size of the array you are passing in (needs to be 16).&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_INVALID_HANDLE - The session handle is invalid. You need to call interfaceIT_Bind first.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CONTROLLER_POINTER - The internal pointer to the controller is invalid.  This can occur if the controller is unplugged and a new bind is not completed.&#60;br&#62;
+ *  IITAPI_ERR_FAILED - The operation has failed.  Typically this is because one of the functions that communicates with the controller returned an error.&#60;br&#62;
+ *  IITAPI_ERR_FEATURE_NOT_AVAILABLE - This feature is not available on this controller.&#60;br&#62;
+ *  IITAPI_ERR_NOT_ENABLED - This function has not been enabled.&#60;br&#62;
+ *  IITAPI_ERR_BUFFER_NOT_LARGE_ENOUGH - Passed array is not large enought.&#60;br&#62;
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Analog_GetValues<font color="black">(</font>DWORD hSession, <font color="blue">unsigned</font> <font color="blue">char</font><font color="black">*</font> pbValues, <font color="blue">int</font> nValuesSize<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_Analog_Enable
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_Analog_Enable_std<font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable <font color="black">=</font> <font color="blue">true</font><font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_Analog_GetValue
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_Analog_GetValue_std<font color="black">(</font>DWORD hSession, <font color="blue">int</font> nReserved, <font color="blue">int</font><font color="black">*</font> pnValue<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_Analog_GetValues
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_Analog_GetValues_std<font color="black">(</font>DWORD hSession, <font color="blue">unsigned</font> <font color="blue">char</font><font color="black">*</font> pbValues, <font color="blue">int</font> nValuesSize<font color="black">)</font>;
+
+
+<font color="green">/**
+ * Function to retrieve the current version of the API.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @param   pBuffer Pointer to a buffer that will have the API version information written to.&#60;br&#62;
+ *                  Passing in a NULL to this parameter will cause the function to retrieve the buffer size (dwSize) that is required
+ *                  to hold the version information.&#60;br&#62;
+ * @param   dwSize  Size of the passed in pBuffer and upon exit will be set to the size of data that was stored in the pBuffer.&#60;br&#62;
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_BUFFER_NOT_LARGE_ENOUGH - The buffer to hold the data is not large enought.&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_GetAPIVersion<font color="black">(</font><font color="blue">char</font><font color="black">*</font> pBuffer, DWORD<font color="black">*</font> dwSize<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_GetAPIVersion
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_GetAPIVersion_std<font color="black">(</font><font color="blue">char</font><font color="black">*</font> pBuffer, DWORD<font color="black">*</font> dwSize<font color="black">)</font>;
+
+<font color="green">/*
+ *  Licensing functions
+ */</font>
+<font color="green">/**
+ * Retrieves the activation id / code used by TEKWorx Limited to activate the API for the machine
+ * it is running on.
+ * &#60;br&#62;
+ * Passing in a NULL for the pBuffer will return the size of the buffer that needs to be allocated
+ * and passed in via the dwSize parameter.
+ * &#60;br&#62;
+ * This function should only need to be called once per machine to retrieve the activation ID for TEKWorx Limited&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @deprecated Licensing functions have been deprecated as of version 1.6 of the API
+ *
+ * @see #interfaceIT_License_SetMachineActivation
+ * @see #interfaceIT_License_IsActivated
+ *
+ * @param   pBuffer Pointer to a character buffer that is large enought to hold the Activation ID
+ * @param   dwSize Pointer to a DWORD indicating the size of the passed in buffer.
+ *
+ * @return
+ *  IITAPI_ERR_OK - Success&#60;br&#62;
+ *  IITAPI_ERR_BUFFER_NOT_LARGE_ENOUGH - Buffer is not large enough to hold the license code&#60;br&#62;
+ *  IITAPI_ERR_ALREADY_LICENSED - The machine license has already been activated.&#60;br&#62;
+ *  IITAPI_ERR_GENERATING_ACTIVATIONID - There was an error generating the activation ID&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_License_GetMachineActivationID<font color="black">(</font><font color="blue">char</font><font color="black">*</font> pBuffer, DWORD<font color="black">*</font> dwSize<font color="black">)</font>;
+
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *
+ *  @deprecated Licensing functions have been deprecated as of version 1.6 of the API
+ *
+ *  @see #interfaceIT_License_GetMachineActivationID
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_License_GetMachineActivationID_std<font color="black">(</font><font color="blue">char</font><font color="black">*</font> pBuffer, DWORD<font color="black">*</font> dwSize<font color="black">)</font>;
+
+<font color="green">/**
+ * Passes in the activation code retrieved from TEKWorx Limited (based on the Activation ID) allowing
+ * for the API to be enabled and activated.
+ * &#60;br&#62;
+ * This will need to be called before the controller is opened ever time a new process uses the API.
+ * It is up to the application utilizing the API to store this Activation code and pass it in every time.
+ * &#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @deprecated Licensing functions have been deprecated as of version 1.6 of the API
+ *
+ * @see #interfaceIT_License_GetMachineActivationID
+ * @see #interfaceIT_License_IsActivated
+ *
+ * @param   pBuffer Pointer to a character buffer that is large enought to hold the Activation ID
+ * @param   dwSize Pointer to a DWORD indicating the size of the passed in buffer.
+ *
+ * @return
+ *  IITAPI_ERR_OK - Success&#60;br&#62;
+ *  IITAPI_ERR_ALREADY_LICENSED - The machine license has already been activated.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_LICENSE - The license code passed in is invalid.&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_License_SetMachineActivation<font color="black">(</font><font color="blue">char</font><font color="black">*</font> pBuffer<font color="black">)</font>;
+
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.
+ *
+ * @deprecated Licensing functions have been deprecated as of version 1.6 of the API
+ *
+ *  @see #interfaceIT_License_SetMachineActivation
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_License_SetMachineActivation_std<font color="black">(</font><font color="blue">char</font><font color="black">*</font> pBuffer<font color="black">)</font>;
+
+<font color="green">/**
+ * Returns if the API has a valid activation in place (machine or product).
+ * &#60;br&#62;
+ *
+ * @deprecated Licensing functions have been deprecated as of version 1.6 of the API
+ *
+ * @see #interfaceIT_License_SetMachineActivation
+ * @return
+ *  IITAPI_ERR_OK - The API has a valid activation in place&#60;br&#62;
+ *  IITAPI_ERR_INVALID_LICENSE - the API does not have a valid activation in place.&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_License_IsActivated<font color="black">(</font><font color="black">)</font>;
+
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.
+ *
+ * @deprecated Licensing functions have been deprecated as of version 1.6 of the API
+ *
+ *  @see #interfaceIT_License_IsActivated
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_License_IsActivated_std<font color="black">(</font><font color="black">)</font>;
+
+<font color="green">/**
+ * This function enables the device change notifications via a callback to your software.  When any interfaceIT device is inserted or removed you will be notified.&#60;br&#62;
+ * Currently the notificaiton is generic and will just notifiy when any device is inserted or removed.  Future version will include a parameter indicating which device was changed.&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @param   bEnable     Boolean value to set the enable state (true / 1 enables, false / 0 disables).&#60;br&#62;
+ * @param   pProc       Pointer to the callback function defined as INTERFACEIT_DEVICE_CHANGE_NOTIFY_PROC (not used if bEnable is 0)
+ *
+ * @return
+ *  IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ *  IITAPI_ERR_ALREADY_ENABLED - The callback has already been enabled.&#60;br&#62;
+ *  IITAPI_ERR_INVALID_CALLBACK - The callback function was not specified.&#60;br&#62;
+ *
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_Enable_DeviceChange_Notification_Callback<font color="black">(</font><font color="blue">bool</font> bEnable, INTERFACEIT_DEVICE_CHANGE_NOTIFY_PROC pProc<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_Enable_DeviceChange_Notification_Callback
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_Enable_DeviceChange_Notification_Callback_std<font color="black">(</font><font color="blue">bool</font> bEnable, INTERFACEIT_DEVICE_CHANGE_NOTIFY_PROC pProc<font color="black">)</font>;
+
+<font color="green">/**
+ * This function enabled function call logging to aid the developer in troubleshooting any calling issues.&#60;br&#62;
+ * When logging is enabled the output file will go to "%appdata%\TEKWorx Limited\interfaceIT API\interfaceIT_API.log"&#60;br&#62;
+ * &#60;br&#62;
+ *
+ * @param   bEnable     Boolean value to set the logging enabled or disabled
+ * 
+ * @return
+ * IITAPI_ERR_OK - Operation was successful&#60;br&#62;
+ * IITAPI_ERR_ALREADY_ENABLED - The logging is already enabled&#60;br&#62;
+ * IITAPI_ERR_UNKNOWN - Error enabling logging (unknown reason)&#60;br&#62;
+ */</font>
+INTERFACEIT_API <font color="blue">int</font> interfaceIT_EnableLogging<font color="black">(</font><font color="blue">bool</font> bEnable<font color="black">)</font>;
+<font color="green">/**
+ *  Special declaration for calling from Visual Basic applications.&#60;br&#62;
+ *  @see #interfaceIT_EnableLogging
+ */</font>
+<font color="blue">int</font> _stdcall interfaceIT_EnableLogging_std<font color="black">(</font><font color="blue">bool</font> bEnable<font color="black">)</font>;
+
+<font color="blue">#ifdef</font> __cplusplus
+<font color="black">}</font>
+<font color="blue">#endif</font>
+
+</PRE>
+</BODY>
+</HTML>

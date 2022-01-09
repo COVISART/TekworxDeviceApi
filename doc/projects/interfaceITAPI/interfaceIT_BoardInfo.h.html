@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<TITLE>
+interfaceIT_BoardInfo.h
+</TITLE>
+</HEAD>
+<BODY>
+<PRE>
+<font color="blue">#pragma</font> once
+
+<font color="green">/*
+ * TEKWorx Limited Public API source code
+ *
+ * Unpublished Copyright © 2004 - 2010 by TEKWorx Limited, All rights reserved.
+ *  
+ * No part of this file may be duplicated, revised, translated, localized or
+ * modified in any manner or compiled, linked or uploaded or downloaded to or
+ * from any computer system without the prior written consent of TEKWorx Limited.
+ *  
+ * DISCLAIMER:
+ *  
+ * TEKWorx Limited disclaims and excludes any and all express, implied, 
+ * and statutory warranties, including, without limitation, warranties
+ * of good title, warranties against infringement, and the implied
+ * warranties of merchantibility and fitness for a particular purpose.
+ * TEKWorx Limited does not warrant that the software will satisfy 
+ * customer's requirements or that the licensed works are without defect
+ * or error or that the operation of the software will be uninterrupted.
+ * TEKWorx Limited makes no warranties respecting any technical services
+ * or support tools provided under the agreement, and disclaims all other
+ * warranties, including the implied warranties of merchantability and
+ * fitness for a particular purpose.
+ *
+ */</font>
+
+<font color="green">/**
+ *  Board information structure
+ */</font>
+<font color="blue">typedef</font> <font color="blue">struct</font> <font color="black">{</font>
+    <font color="blue">int</font> nLEDCount;              <font color="green">// Total number of LED outputs</font>
+    <font color="blue">int</font> nLEDFirst;              <font color="green">// First LED output number</font>
+    <font color="blue">int</font> nLEDLast;               <font color="green">// Last LED output number</font>
+    <font color="blue">int</font> nSwitchCount;           <font color="green">// Total number of switches</font>
+    <font color="blue">int</font> nSwitchFirst;           <font color="green">// First switch input number</font>
+    <font color="blue">int</font> nSwitchLast;            <font color="green">// Last switch input number</font>
+    <font color="blue">int</font> n7SegmentCount;         <font color="green">// Total number of 7 Segment output (future)</font>
+    <font color="blue">int</font> n7SegmentFirst;         <font color="green">// First 7 Segment output number (future)</font>
+    <font color="blue">int</font> n7SegmentLast;          <font color="green">// Last 7 Segment output number (future)</font>
+    <font color="blue">int</font> nDatalineCount;         <font color="green">// Total datalines</font>
+    <font color="blue">int</font> nDatalineFirst;         <font color="green">// First dataline number</font>
+    <font color="blue">int</font> nDatalineLast;          <font color="green">// Last dataline number</font>
+    <font color="blue">int</font> nServoController;       <font color="green">// Total servo controllers</font>
+    <font color="blue">int</font> nServoControllerFirst;  <font color="green">// First servo controller</font>
+    <font color="blue">int</font> nServoControllerLast;   <font color="green">// Last servo controller</font>
+    <font color="blue">int</font> nReserved4;
+    <font color="blue">int</font> nReserved5;
+    <font color="blue">int</font> nReserved6;
+    <font color="blue">int</font> nReserved7;
+    <font color="blue">int</font> nReserved8;
+    <font color="blue">int</font> nReserved9;
+    CHAR szBoardType<font color="black">[</font><font color="maroon">5</font><font color="black">]</font>;        <font color="green">// Null-terminated string containing the board type identifier</font>
+    CHAR szManufactureDate<font color="black">[</font><font color="maroon">9</font><font color="black">]</font>;  <font color="green">// Null-terminated string containing the manufacture date of the board</font>
+    DWORD dwFeatures;           <font color="green">// Features that are currently enabled on the board</font>
+    <font color="blue">int</font> nUpdateLevel;           <font color="green">// Update level that is currently applied to this board</font>
+<font color="black">}</font> BOARDCAPS, <font color="black">*</font>PBOARDCAPS;
+
+<font color="green">/**
+ *  Features
+ */</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_NONE                    <font color="maroon">0x00000000</font>
+
+<font color="blue">#define</font> INTERFACEIT_FEATURE_INPUT_SWITCHES          <font color="maroon">0x00000001</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_INPUT_RC                <font color="maroon">0x00000002</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_INPUT_SPI               <font color="maroon">0x00000004</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_INPUT_DATALINE          <font color="maroon">0x00000008</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_INPUT_IIC               <font color="maroon">0x00000010</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_INPUT_RESERVED6         <font color="maroon">0x00000020</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_INPUT_RESERVED7         <font color="maroon">0x00000040</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_INPUT_RESERVED8         <font color="maroon">0x00000080</font>
+
+<font color="blue">#define</font> INTERFACEIT_FEATURE_OUTPUT_LED              <font color="maroon">0x00000100</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_OUTPUT_LCD              <font color="maroon">0x00000200</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_OUTPUT_7SEGMENT         <font color="maroon">0x00000400</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_OUTPUT_SPI              <font color="maroon">0x00000800</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_OUTPUT_IIC              <font color="maroon">0x00001000</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_OUTPUT_DATALINE         <font color="maroon">0x00002000</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_OUTPUT_SERVO            <font color="maroon">0x00004000</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_OUTPUT_RESERVED16       <font color="maroon">0x00008000</font>
+
+<font color="blue">#define</font> INTERFACEIT_FEATURE_SPECIAL_BRIGHTNESS      <font color="maroon">0x00010000</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_SPECIAL_ANALOG_INPUT    <font color="maroon">0x00020000</font>
+<font color="blue">#define</font> INTERFACEIT_FEATURE_SPECIAL_ANALOG16_INPUT  <font color="maroon">0x00040000</font>
+
+</PRE>
+</BODY>
+</HTML>

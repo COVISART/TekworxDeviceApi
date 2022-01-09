@@ -1,0 +1,182 @@
+<HTML>
+<HEAD>
+<TITLE>
+interfaceITAPI_Data.h
+</TITLE>
+</HEAD>
+<BODY>
+<PRE>
+<font color="blue">#pragma</font> once
+
+<font color="blue">#ifdef</font> _WIN64
+<font color="blue">#define</font> IITAPI_DLL_NAME <font color="maroon">"interfaceITAPI x64.dll"</font>
+<font color="blue">#else</font>
+<font color="blue">#define</font> IITAPI_DLL_NAME <font color="maroon">"interfaceITAPI.dll"</font>
+<font color="blue">#endif</font>
+
+<font color="green">/**
+ *  Switch callback definition
+ */</font>
+<font color="blue">typedef</font> BOOL <font color="black">(</font>CALLBACK<font color="black">*</font> INTERFACEIT_KEY_NOTIFY_PROC<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">int</font> nSwitch, <font color="blue">int</font> nDirection<font color="black">)</font>;
+
+<font color="green">/**
+ *  Device change notification
+ */</font>
+<font color="blue">typedef</font> BOOL <font color="black">(</font>CALLBACK<font color="black">*</font> INTERFACEIT_DEVICE_CHANGE_NOTIFY_PROC<font color="black">)</font><font color="black">(</font><font color="blue">int</font> nAction<font color="black">)</font>;
+
+<font color="blue">typedef</font> <font color="blue">struct</font> <font color="black">{</font>
+    <font color="blue">int</font> nSwitch;
+    <font color="blue">int</font> nDirection;
+<font color="black">}</font> SWITCHINFO;
+
+<font color="green">/**
+ * Device Notification
+ */</font>
+<font color="blue">#define</font> INTERFACEIT_DEVICE_REMOVAL          <font color="maroon">0x01</font>
+<font color="blue">#define</font> INTERFACEIT_DEVICE_ARRIVAL          <font color="maroon">0x02</font>
+
+<font color="green">/**
+ *  Switch direction information
+ */</font>
+<font color="blue">#define</font> INTERFACEIT_SWITCH_DIR_UNKNOWN      <font color="maroon">0xFF</font>
+<font color="blue">#define</font> INTERFACEIT_SWITCH_DIR_UP           <font color="maroon">0x0</font>
+<font color="blue">#define</font> INTERFACEIT_SWITCH_DIR_DOWN         <font color="maroon">0x1</font>
+
+<font color="green">/**
+ *  Board options
+ */</font>
+<font color="blue">#define</font> INTERFACEIT_BOARD_OPTION_NONE       <font color="maroon">0x0</font>
+<font color="blue">#define</font> INTERFACEIT_BOARD_OPTION_CDUKEYS    <font color="maroon">0x1</font>     <font color="green">// CDU v9 does not need this.  Used for v7 CDU</font>
+<font color="blue">#define</font> INTERFACEIT_BOARD_OPTION_FORCE64    <font color="maroon">0x2</font>     <font color="green">// Requred for the new FDS-CONTROLLER-MCP boards for relay to function</font>
+<font color="blue">#define</font> INTERFACEIT_BOARD_OPTION_RESERVED3  <font color="maroon">0x4</font>
+
+<font color="green">/**
+ *  Error codes
+ */</font>
+<font color="blue">#define</font> IITAPI_ERR_BASE                                             <font color="maroon">0</font>
+
+<font color="blue">#define</font> IITAPI_ERR_OK                           <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-0</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_CONTROLLERS_OPEN_FAILED      <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-1</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_CONTROLLERS_ALREADY_OPENED   <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-2</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_CONTROLLERS_NOT_OPENED       <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-3</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_INVALID_HANDLE               <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-4</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_INVALID_POINTER              <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-5</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_INVALID_CONTROLLER_NAME      <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-6</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_FAILED                       <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-7</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_INVALID_CONTROLLER_POINTER   <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-8</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_INVALID_CALLBACK             <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-9</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_RETRIEVING_CONTROLLER        <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-10</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_NOT_ENABLED                  <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-11</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_BUFFER_NOT_LARGE_ENOUGH      <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-12</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_BUFFER_NOT_LARGE_ENOUGHT     <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-12</font><font color="black">)</font>   <font color="green">// Previous release typo</font>
+<font color="blue">#define</font> IITAPI_ERR_PARAMETER_LENGTH_INCORRECT   <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-13</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_PARAMETER_OUT_OF_RANGE       <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-14</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_FEATURE_NOT_AVAILABLE        <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-15</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_ALREADY_ENABLED              <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-16</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_NO_ITEMS                     <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-17</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_CONTROLLER_ALREADY_BOUND     <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-18</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_NO_CONTROLLERS_FOUND         <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-19</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_UNKNOWN                      <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-20</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_NOT_LICENSED                 <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-21</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_INVALID_LICENSE              <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-22</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_ALREADY_LICENSED             <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-23</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_GENERATING_ACTIVATIONID      <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-24</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_EXPIRED_LICENSE              <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-25</font><font color="black">)</font>
+<font color="blue">#define</font> IITAPI_ERR_EXPIRED_TRIAL                <font color="black">(</font>IITAPI_ERR_BASE <font color="maroon">-26</font><font color="black">)</font>
+
+<font color="green">/* CPPDOC_BEGIN_EXCLUDE */</font>
+
+<font color="green">/*
+ *  Exported function typedefs
+ */</font>
+
+<font color="blue">#ifndef</font> INTERFACEITAPI_EXPORTS
+
+<font color="green">/**
+ * Main functions
+ */</font>
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_OPENCONTROLLERS<font color="black">)</font><font color="black">(</font><font color="blue">void</font><font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_GETDEVICELIST<font color="black">)</font><font color="black">(</font><font color="blue">char</font><font color="black">*</font> pszBuffer, DWORD<font color="black">*</font> dwSize, <font color="blue">char</font><font color="black">*</font> pBoardType<font color="green">/* = NULL*/</font><font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_CLOSECONTROLLERS<font color="black">)</font><font color="black">(</font><font color="blue">void</font><font color="black">)</font>;
+
+<font color="green">/**
+ * Controller Functions
+ */</font>
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_BIND<font color="black">)</font><font color="black">(</font><font color="blue">const</font> <font color="blue">char</font><font color="black">*</font> pszController, DWORD<font color="black">*</font> phSession<font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_UNBIND<font color="black">)</font><font color="black">(</font>DWORD hSession<font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_GETBOARDINFO<font color="black">)</font><font color="black">(</font>DWORD hSession, BOARDCAPS<font color="black">*</font> pbc<font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_SETBOARDOPTIONS<font color="black">)</font><font color="black">(</font>DWORD hSession, DWORD dwOptions<font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_GETCONTROLLERCOUNT<font color="black">)</font><font color="black">(</font><font color="blue">int</font> <font color="black">*</font>pnControllerCount<font color="black">)</font>;
+
+<font color="green">/**
+ * LED Functions
+ */</font>
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_LED_ENABLE<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable<font color="green">/* = true*/</font><font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_LED_TEST<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable<font color="green">/* = true*/</font><font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_LED_SET<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">int</font> nLED, <font color="blue">bool</font> bOn<font color="green">/* = true*/</font><font color="black">)</font>;
+
+<font color="green">/**
+ * Switch Functions
+ */</font>
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_SWITCH_ENABLE_CALLBACK<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable, INTERFACEIT_KEY_NOTIFY_PROC pProc<font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_SWITCH_ENABLE_POLL<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable<font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_SWITCH_GET_ITEM<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">int</font><font color="black">*</font> pnSwitch, <font color="blue">int</font><font color="black">*</font> pnDirection<font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_SWITCH_GET_STATE<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">int</font> nSwitch, <font color="blue">int</font><font color="black">*</font> pnState<font color="black">)</font>;
+
+<font color="green">/**
+ * 7 Segment Functions
+ */</font>
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_7SEGMENT_ENABLE<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable<font color="green">/* = true*/</font><font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_7SEGMENT_DISPLAY<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">char</font><font color="black">*</font> pszData, <font color="blue">int</font> nStart<font color="black">)</font>;
+
+<font color="green">/**
+ * Dataline Functions
+ */</font>
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_DATALINE_ENABLE<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable<font color="green">/* = true*/</font><font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_DATALINE_SET<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">int</font> nDataline, <font color="blue">bool</font> bOn<font color="green">/* = true*/</font><font color="black">)</font>;
+
+<font color="green">/**
+ *  Servo Functions
+ */</font>
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_SERVO_ENABLE<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable<font color="green">/* = true*/</font><font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_SERVO_SET_POSITION<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">int</font> nController, <font color="blue">int</font> nServo, <font color="blue">int</font> nPos<font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_SERVO_SET_CENTER<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">int</font> nController, <font color="blue">int</font> nServo, <font color="blue">int</font> nPos<font color="black">)</font>;
+
+<font color="green">/**
+ * Brightness Functions
+ */</font>
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_BRIGHTNESS_ENABLE<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable<font color="green">/* = true*/</font><font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_BRIGHTNESS_SET<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">int</font> nBrightness<font color="black">)</font>;
+
+<font color="green">/**
+ * Analog Input Functions
+ */</font>
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_ANALOG_ENABLE<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">bool</font> bEnable<font color="green">/* = true*/</font><font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_ANALOG_GET_VALUE<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">int</font> nReserved, <font color="blue">int</font><font color="black">*</font> pnValue<font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_ANALOG_GET_VALUES<font color="black">)</font><font color="black">(</font>DWORD hSession, <font color="blue">unsigned</font> <font color="blue">char</font><font color="black">*</font> pbValues, <font color="blue">int</font> nValuesSize<font color="black">)</font>;
+
+<font color="green">/**
+ *  Licensing functions - Deprecated - Not for new development
+ */</font>
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_LICENSE_GETMACHINEACTIVATIONID<font color="black">)</font><font color="black">(</font><font color="blue">char</font><font color="black">*</font> pBuffer, DWORD<font color="black">*</font> dwSize<font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_LICENSE_SETMACHINEACTIVATION<font color="black">)</font><font color="black">(</font><font color="blue">char</font><font color="black">*</font> pBuffer<font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_LICENSE_ISACTIVATED<font color="black">)</font><font color="black">(</font><font color="black">)</font>;
+
+<font color="green">/**
+ * Device change notification
+ */</font>
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_ENABLE_DEVICECHANGE_NOTIFICATION_CALLBACK<font color="black">)</font><font color="black">(</font><font color="blue">bool</font> bEnable, INTERFACEIT_DEVICE_CHANGE_NOTIFY_PROC pProc<font color="black">)</font>;
+
+<font color="green">/**
+ *  Misc functions
+ */</font>
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_GETAPIVERSION<font color="black">)</font><font color="black">(</font><font color="blue">char</font><font color="black">*</font> pBuffer, DWORD<font color="black">*</font> dwSize<font color="black">)</font>;
+<font color="blue">typedef</font> <font color="blue">int</font> <font color="black">(</font><font color="black">*</font>PINTERFACEIT_ENABLELOGGING<font color="black">)</font><font color="black">(</font><font color="blue">bool</font> bEnable<font color="black">)</font>;
+
+<font color="blue">#endif</font>
+
+<font color="green">/* CPPDOC_END_EXCLUDE */</font>
+
+</PRE>
+</BODY>
+</HTML>
