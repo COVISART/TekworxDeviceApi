@@ -49,16 +49,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="app.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="app.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\..\..\..\..\..\Program Files\TEKWorx Limited\interfaceIT API x64\interfaceITAPI x64.dll">
       <Filter>Resource Files</Filter>
     </None>
