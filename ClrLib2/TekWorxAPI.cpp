@@ -1,20 +1,20 @@
 #include "pch.h"
 
-#include "ClrLib2.h"
+#include "TekWorxAPI.h"
 
 using namespace System;
 using namespace Runtime::InteropServices;
 
 
-namespace CovisartA320Wrapper
+namespace TekWorxAPI
 {
-    public ref class CovisartA320Api
+    public ref class Device
     {
     public:
     public:
         delegate void OnSwitchChangedDelegate(int);
     public:
-        CovisartA320Api()
+        Device()
         {
             [[maybe_unused]] int nKey = 0;
             int nRet = IITAPI_ERR_OK;
@@ -332,7 +332,7 @@ namespace CovisartA320Wrapper
             return p_brightness_enable(hSession, true);
         }
 
-        int Brightness_Disable(DWORD hSession)
+        int Brightness_Disable(DWORD hSession) 
         {
             return p_brightness_enable(hSession, false);
         }

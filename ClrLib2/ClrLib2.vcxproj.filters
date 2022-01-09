@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClrLib2.h">
+    <ClInclude Include="TekWorxAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
@@ -38,7 +38,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ClrLib2.cpp">
+    <ClCompile Include="TekWorxAPI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -59,7 +59,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\DLL\interfaceITAPI x64.dll">
+    <None Include="..\..\..\..\..\..\Program Files\TEKWorx Limited\interfaceIT API x64\interfaceITAPI x64.dll">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

@@ -20,20 +20,6 @@ using std::endl;
 using std::filesystem::current_path;
 
 /*
- *	Function prototypes
- */
-void test_led(DWORD h_session, BOARDCAPS bc_data);
-void test_7_segment(DWORD h_session, BOARDCAPS bc_data);
-void test_dataline(DWORD h_session, BOARDCAPS bc_data);
-void test_switches(DWORD h_session, BOARDCAPS bc_data);
-void test_servo(DWORD h_session, BOARDCAPS bc_data);
-void test_brightness(DWORD h_session, BOARDCAPS bc_data);
-void test_analog_input(DWORD h_session, BOARDCAPS bc_data);
-void test_device_change_notification();
-bool load_pointers(HMODULE h_interface_itapi);
-void dump_board_list(char* p_buffer, DWORD dw_size);
-
-/*
  *	Global variables
  */
 
