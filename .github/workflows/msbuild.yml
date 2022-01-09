@@ -38,5 +38,4 @@ jobs:
       with:
         name: build-result
         path: |
-          dist
-          !dist/**/*.md
+          ./BUILD/
