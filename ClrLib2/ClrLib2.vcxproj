@@ -164,7 +164,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\interfaceApi\interfaceITAPI x64.dll">
+    <None Include="..\interfaceApi\interfaceITAPI_x64.dll">
       <DeploymentContent>true</DeploymentContent>
     </None>
   </ItemGroup>
