@@ -6,16 +6,16 @@ using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Security::Permissions;
 
-[assembly:AssemblyTitleAttribute(L"ClrLib2")];
-[assembly:AssemblyDescriptionAttribute(L"")];
+[assembly:AssemblyTitleAttribute(L"TekworxDeviceApi")];
+[assembly:AssemblyDescriptionAttribute(L"TEKWorx hardware API wrapper for .NET Framework")];
 [assembly:AssemblyConfigurationAttribute(L"")];
-[assembly:AssemblyCompanyAttribute(L"")];
-[assembly:AssemblyProductAttribute(L"ClrLib2")];
-[assembly:AssemblyCopyrightAttribute(L"Copyright (c)  2020")];
-[assembly:AssemblyTrademarkAttribute(L"")];
-[assembly:AssemblyCultureAttribute(L"")];
+[assembly:AssemblyCompanyAttribute(L"COVISART")];
+[assembly:AssemblyProductAttribute(L"TekworxDeviceApi")];
+[assembly:AssemblyCopyrightAttribute(L"Copyright (c)  2022")];
+[assembly:AssemblyTrademarkAttribute(L"COVISART")];
+[assembly:AssemblyCultureAttribute(L"tr-TR")];
 
-[assembly:AssemblyVersionAttribute("1.0.*")];
+[assembly:AssemblyVersionAttribute("1.0.0")];
 
 [assembly:ComVisible(false)];
 
