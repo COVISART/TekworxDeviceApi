@@ -1,7 +1,7 @@
 #pragma once
 
 #ifdef _WIN64
-#define IITAPI_DLL_NAME	"interfaceITAPI x64.dll"
+#define IITAPI_DLL_NAME	"interfaceITAPI_x64.dll"
 #else
 #define IITAPI_DLL_NAME	"interfaceITAPI.dll"
 #endif

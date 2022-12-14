@@ -4,7 +4,7 @@
 
 using namespace System;
 using namespace Runtime::InteropServices;
-
+namespace fs = std::filesystem;
 
 namespace TekWorxAPI
 {
@@ -18,11 +18,9 @@ namespace TekWorxAPI
         {
             [[maybe_unused]] int nKey = 0;
             int nRet = IITAPI_ERR_OK;
-            cout << "Current working directory: " << current_path() << endl;
-            auto current_dir = current_path().generic_string() + "\\interfaceITAPI_x64.dll";
-            auto interface_Dir = std::wstring(current_dir.begin(), current_dir.end());
-            auto IITAPI_DLL_NAME_X = interface_Dir.c_str();
-            //constexpr auto IITAPI_DLL_NAME_X = L"C:\\dll\\interfaceITAPI x64.dll";
+            fs::path current_dir = fs::current_path() /= IITAPI_DLL_NAME;
+            auto IITAPI_DLL_NAME_X = current_dir.c_str();
+            //cout << "Device Api: " << current_dir << endl;
 
             /*
              *	Load the API DLL
